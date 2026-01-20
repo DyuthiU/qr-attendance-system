@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Attendance</title>
+</head>
+<body>
+
+<h2>Student Attendance</h2>
+<p id="status">Waiting for location permission...</p>
+
+<script>
+const statusText = document.getElementById("status");
+
+const params = new URLSearchParams(window.location.search);
+const token = params.get("token");
+const period = params.get("period");
+
+if (!token) {
+  statusText.innerText = "Invalid or expired QR code";
+} else {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        statusText.innerText =
+          "Attendance marked successfully\n" +
+          "Period: " + period;
+      },
+      () => {
+        statusText.innerText = "Location permission denied";
+      }
+    );
+  } else {
+    statusText.innerText = "GPS not supported on this device";
+  }
+}
+</script>
+
+</body>
+</html>
