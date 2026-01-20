@@ -24,17 +24,19 @@
 <div id="qrcode"></div>
 <p id="timer"></p>
 
-<script>
+  <script>
 let time = 120;
 let interval;
 
 function generateQR() {
+  clearInterval(interval);
   time = 120;
+
   document.getElementById("qrcode").innerHTML = "";
   document.getElementById("timer").innerText = "";
 
   const period = document.getElementById("period").value;
-  const token = Date.now(); // unique QR token
+  const token = Date.now(); // unique QR every time
 
   new QRCode(document.getElementById("qrcode"), {
     text: `student.html?token=${token}&period=${encodeURIComponent(period)}`,
@@ -44,8 +46,7 @@ function generateQR() {
 
   interval = setInterval(() => {
     document.getElementById("timer").innerText =
-      "QR expires in " + time + " seconds";
-    time--;
+      "QR expires in " + time + "
 
     if (time < 0) {
       clearInterval(interval);
